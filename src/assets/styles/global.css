@@ -1,0 +1,22 @@
+:root {
+  --primary-color: #FFFFFF;
+  --second-color: #ccc;
+  --primary-bg-color: #fa7e29;
+  --theme-background-1: linear-gradient(248.66deg, #FF9696 0%, #8C6BAE 100%);
+  --theme-background-2: linear-gradient(248.66deg, #EEAECA 0%, #91BEF3 100%);
+  --theme-background-3: linear-gradient(248.66deg, #A8C8ED 0%, #7673DC 100%);
+  --theme-background-4: linear-gradient(248.66deg, #AAC0FF 0%, #8C6BAE 100%);
+  --theme-background-5: linear-gradient(248.66deg, #48355B 0%, #8C6EAB 100%);
+  --theme-background-6: linear-gradient(248.66deg, #48355B 0%, #91BEF3 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', sans-serif;
+  font-size: 62.5%;
+}
