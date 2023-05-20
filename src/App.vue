@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="d-flex">
     <SidebarComponent />
 
     <div class="content">
@@ -24,7 +24,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.wrap {
-}
-</style>
+<style scoped></style>
