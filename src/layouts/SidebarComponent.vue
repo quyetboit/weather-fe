@@ -5,7 +5,7 @@
       <span>QuyetBoit</span>
     </div>
 
-    <div class="nav-bar d-flex flex-column jc-between ai-center">
+    <div class="nav-bar pt-20 d-flex flex-column jc-between ai-center">
       <ul class="menu-list">
         <li class="menu-item active">
           <ion-icon name="grid-outline"></ion-icon>
@@ -33,12 +33,13 @@
 
 <style scoped>
 .sidebar {
-  width: 80px;
+  width: var(--width-sidebar);
   height: 100vh;
 }
 
 .logo {
   height: var(--height-header);
+  color: var(--primary-bg-color);
 }
 
 .logo ion-icon {
