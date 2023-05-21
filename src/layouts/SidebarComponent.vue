@@ -5,23 +5,18 @@
       <span>QuyetBoit</span>
     </div>
 
-    <div class="nav-bar pt-20 d-flex flex-column jc-between ai-center">
+    <div class="nav-bar pt-20 pb-20 d-flex flex-column jc-between ai-center">
       <ul class="menu-list">
-        <li class="menu-item active">
-          <ion-icon name="grid-outline"></ion-icon>
-        </li>
-        <li class="menu-item">
-          <ion-icon name="analytics-outline"></ion-icon>
-        </li>
-        <li class="menu-item">
-          <ion-icon name="location-outline"></ion-icon>
-        </li>
-        <li class="menu-item">
-          <ion-icon name="calendar-outline"></ion-icon>
-        </li>
-        <li class="menu-item">
-          <ion-icon name="settings-outline"></ion-icon>
-        </li>
+        <template v-for="(route, index) of menuConfig" :key="index">
+          <router-link :to="{ name: route.routeName }">
+            <li
+              class="menu-item"
+              :class="{ active: indexActive === index, 'mt-8': index !== 0 }"
+            >
+              <ion-icon :name="route.icon"></ion-icon>
+            </li>
+          </router-link>
+        </template>
       </ul>
 
       <div class="menu-item icon-logout">
@@ -30,6 +25,27 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "SiderbarComponent",
+  setup() {
+    const indexActive = 0;
+    const menuConfig = [
+      { icon: "grid-outline", routeName: "dashboard-route" },
+      { icon: "analytics-outline", routeName: "analytics-route" },
+      { icon: "location-outline", routeName: "location-route" },
+      { icon: "calendar-outline", routeName: "calendar-route" },
+      { icon: "settings-outline", routeName: "settings-route" },
+    ];
+
+    return {
+      menuConfig,
+      indexActive,
+    };
+  },
+};
+</script>
 
 <style scoped>
 .sidebar {

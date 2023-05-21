@@ -2,9 +2,9 @@
   <div class="d-flex">
     <SidebarComponent />
 
-    <div class="content">
+    <div class="content w-100">
       <HeaderComponent />
-      <div class="content">
+      <div class="main p-20">
         <router-view></router-view>
       </div>
     </div>
@@ -24,4 +24,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.main {
+  margin-top: var(--height-header);
+  background: rgba(0, 0, 0, 0.04);
+  min-height: calc(100vh - var(--height-header));
+}
+</style>
