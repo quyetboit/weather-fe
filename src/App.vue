@@ -2,10 +2,12 @@
   <div class="d-flex">
     <SidebarComponent />
 
-    <div class="content w-100">
+    <div class="w-100">
       <HeaderComponent />
-      <div class="main p-20">
-        <router-view></router-view>
+      <div class="main">
+        <div class="content">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
   </div>
@@ -29,5 +31,12 @@ export default {
   margin-top: var(--height-header);
   background: rgba(0, 0, 0, 0.04);
   min-height: calc(100vh - var(--height-header));
+  display: flex;
+}
+
+.content {
+  background: var(--theme-background-1);
+  flex: 1;
+  border-radius: 4px;
 }
 </style>

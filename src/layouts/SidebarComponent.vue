@@ -12,6 +12,7 @@
             <li
               class="menu-item"
               :class="{ active: indexActive === index, 'mt-8': index !== 0 }"
+              @click="indexActive = index"
             >
               <ion-icon :name="route.icon"></ion-icon>
             </li>
@@ -30,7 +31,7 @@
 export default {
   name: "SiderbarComponent",
   setup() {
-    const indexActive = 0;
+    let indexActive = 0;
     const menuConfig = [
       { icon: "grid-outline", routeName: "dashboard-route" },
       { icon: "analytics-outline", routeName: "analytics-route" },

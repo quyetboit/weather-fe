@@ -30,6 +30,11 @@ const routes = [
     name: "settings-route",
     component: () => import("./pages/SettingsComponent.vue"),
   },
+
+  {
+    path: "",
+    redirect: "/dashboard",
+  },
 ];
 
 const router = createRouter({
