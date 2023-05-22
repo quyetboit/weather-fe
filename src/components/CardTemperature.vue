@@ -53,5 +53,6 @@ export default {
   font-weight: 400;
   font-size: 1.6rem;
   line-height: 30px;
+  color: #fff;
 }
 </style>

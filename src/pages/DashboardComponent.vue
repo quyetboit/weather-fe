@@ -53,7 +53,9 @@
         <h3 class="right__head-location ml-8">Ha Noi, Viet Nam</h3>
       </div>
 
-      <div class="right__card-son"></div>
+      <div class="right__card-son">
+        <CardSunTracking />
+      </div>
       <div class="right__card-separate"></div>
       <div class="right__card-footer"></div>
     </div>
@@ -64,6 +66,7 @@
 import CloudComponent from "@/components/CloudComponent.vue";
 import CardTemperature from "@/components/CardTemperature.vue";
 import TemperatureUnit from "@/components/TemperatrueUnit.vue";
+import CardSunTracking from "@/components/CardSunTracking.vue";
 
 export default {
   name: "DashboardComponent",
@@ -71,6 +74,7 @@ export default {
     CloudComponent,
     CardTemperature,
     TemperatureUnit,
+    CardSunTracking,
   },
 };
 </script>
