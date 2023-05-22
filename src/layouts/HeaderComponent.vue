@@ -39,10 +39,12 @@ export default {
 <style>
 .header {
   height: var(--height-header);
+  background: #fff;
   position: fixed;
   top: 0;
   right: 0;
   left: var(--width-sidebar);
+  z-index: 999;
 }
 
 .header__avatar {

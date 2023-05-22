@@ -29,6 +29,7 @@ export default {
 <style scoped>
 .main {
   margin-top: var(--height-header);
+  margin-left: var(--width-sidebar);
   background: rgba(0, 0, 0, 0.04);
   min-height: calc(100vh - var(--height-header));
   display: flex;

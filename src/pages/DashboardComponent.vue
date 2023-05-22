@@ -48,9 +48,9 @@
       </div>
     </div>
     <div class="dashboard__right">
-      <div class="right__head">
+      <div class="right__head d-flex ai-center">
         <ion-icon name="location-outline"></ion-icon>
-        <h3 class="right__head-location">Ha Noi, Viet Nam</h3>
+        <h3 class="right__head-location ml-8">Ha Noi, Viet Nam</h3>
       </div>
 
       <div class="right__card-son"></div>
@@ -97,6 +97,7 @@ export default {
     /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   box-shadow: inset -5px -5px 250px rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(21px);
+  padding: 30px;
 }
 
 .days {

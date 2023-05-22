@@ -50,6 +50,9 @@ export default {
 
 <style scoped>
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: var(--width-sidebar);
   height: 100vh;
 }
