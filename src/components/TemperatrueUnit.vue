@@ -50,7 +50,7 @@ export default {
   color: #ffffff;
   position: absolute;
   top: 2px;
-  right: -4pc;
+  right: -4px;
   transform: translateX(calc(100% + 6px));
 }
 .temperature__unit.temperature__unit--normal {

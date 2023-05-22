@@ -47,7 +47,16 @@
         <CardTemperature />
       </div>
     </div>
-    <div class="dashboard__right"></div>
+    <div class="dashboard__right">
+      <div class="right__head">
+        <ion-icon name="location-outline"></ion-icon>
+        <h3 class="right__head-location">Ha Noi, Viet Nam</h3>
+      </div>
+
+      <div class="right__card-son"></div>
+      <div class="right__card-separate"></div>
+      <div class="right__card-footer"></div>
+    </div>
   </div>
 </template>
 
@@ -131,5 +140,13 @@ export default {
 }
 
 .weather-info__value {
+}
+
+.right__head {
+  color: #ffffff;
+}
+
+.right__head ion-icon {
+  font-size: 3rem;
 }
 </style>
