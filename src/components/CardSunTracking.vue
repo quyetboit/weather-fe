@@ -1,11 +1,11 @@
 <template>
-  <div class="card-sun">
-    <h1 class="title">{{ title }}</h1>
+  <div class="card-sun" :class="{ 'mb-12': size !== 'small' }">
+    <h1 class="title mb-8">{{ title }}</h1>
     <div
-      class="main d-flex flex-column ai-center"
+      class="main d-flex flex-column ai-center jc-between"
       :style="{
-        width: size === 'small' ? '105px' : '130px',
-        height: size === 'small' ? '210px' : '230px',
+        width: size === 'small' ? '85px' : '102px',
+        height: size === 'small' ? '190px' : '220px',
       }"
     >
       <img
@@ -13,8 +13,10 @@
         :src="requireImage('images/clock.png')"
         alt="clock"
       />
-      <span class="time-from">{{ timeFrom }}</span>
-      <span class="time-to">{{ timeTo }}</span>
+      <span class="wrap-time d-flex flex-column ai-center">
+        <span class="time-from mb-8">{{ timeFrom }}</span>
+        <span class="time-to">{{ timeTo }}</span>
+      </span>
     </div>
   </div>
 </template>
@@ -60,6 +62,9 @@ export default {
 }
 
 .title {
+  font-size: 2rem;
+  color: white;
+  text-align: center;
 }
 .main {
   background: rgba(255, 255, 255, 0.26);
@@ -71,7 +76,13 @@ export default {
   height: auto;
 }
 .time-from {
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
 }
 .time-to {
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 300;
 }
 </style>

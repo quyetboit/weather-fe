@@ -53,10 +53,34 @@
         <h3 class="right__head-location ml-8">Ha Noi, Viet Nam</h3>
       </div>
 
-      <div class="right__card-son">
-        <CardSunTracking />
+      <div class="right__card-son d-flex jc-between ai-end">
+        <CardSunTracking
+          :size="'small'"
+          :timeFrom="'7:12'"
+          :timeTo="'7:30'"
+          :title="'Sunrise'"
+        />
+
+        <CardSunTracking
+          :size="'large'"
+          :timeFrom="'7:12'"
+          :timeTo="'7:30'"
+          :title="'Sunrise'"
+        />
+
+        <CardSunTracking
+          :size="'small'"
+          :timeFrom="'7:12'"
+          :timeTo="'7:30'"
+          :title="'Sunrise'"
+        />
       </div>
-      <div class="right__card-separate"></div>
+      <div class="right__card-separate d-flex ai-center">
+        <div class="separate flex-1"></div>
+        <span class="wrap-icon ml-8">
+          <ion-icon name="information-outline"></ion-icon>
+        </span>
+      </div>
       <div class="right__card-footer"></div>
     </div>
   </div>
@@ -153,5 +177,25 @@ export default {
 
 .right__head ion-icon {
   font-size: 3rem;
+}
+
+.right__card-separate .separate {
+  border-top: 2px solid white;
+}
+
+.right__card-separate ion-icon {
+  color: white;
+  font-size: 3rem;
+}
+
+.right__card-separate .wrap-icon {
+  transform: rotateZ("5deg");
+  display: flex;
+  width: 35px;
+  height: 35px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.23);
+  border-radius: 50%;
 }
 </style>
