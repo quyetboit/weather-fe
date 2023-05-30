@@ -47,7 +47,7 @@
         <CardTemperature />
       </div>
     </div>
-    <div class="dashboard__right">
+    <div class="dashboard__right d-flex flex-column jc-between">
       <div class="right__head d-flex ai-center">
         <ion-icon name="location-outline"></ion-icon>
         <h3 class="right__head-location ml-8">Ha Noi, Viet Nam</h3>
@@ -75,13 +75,23 @@
           :title="'Sunrise'"
         />
       </div>
+
       <div class="right__card-separate d-flex ai-center">
         <div class="separate flex-1"></div>
         <span class="wrap-icon ml-8">
           <ion-icon name="information-outline"></ion-icon>
         </span>
       </div>
-      <div class="right__card-footer"></div>
+
+      <div class="right__card-footer d-flex jc-between">
+        <QuantityComponent
+          :title="'Air Quality'"
+          :currentValue="3"
+          :total="5"
+        />
+
+        <QuantityComponent :title="'UIV Index'" :currentValue="2" :total="10" />
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +101,7 @@ import CloudComponent from "@/components/CloudComponent.vue";
 import CardTemperature from "@/components/CardTemperature.vue";
 import TemperatureUnit from "@/components/TemperatrueUnit.vue";
 import CardSunTracking from "@/components/CardSunTracking.vue";
+import QuantityComponent from "@/components/QuantityComponent.vue";
 
 export default {
   name: "DashboardComponent",
@@ -99,6 +110,7 @@ export default {
     CardTemperature,
     TemperatureUnit,
     CardSunTracking,
+    QuantityComponent,
   },
 };
 </script>
@@ -126,6 +138,7 @@ export default {
   box-shadow: inset -5px -5px 250px rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(21px);
   padding: 30px;
+  overflow: hidden;
 }
 
 .days {
