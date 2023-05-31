@@ -4,7 +4,10 @@
       <CloudComponent />
 
       <div class="temperature">
-        <TemperatureUnit :temperature="27" size="126px" />
+        <TemperatureUnit
+          :temperature="infoWeather.current.temp_c"
+          size="126px"
+        />
       </div>
 
       <div class="days d-flex flex-column">
@@ -23,21 +26,27 @@
             name="speedometer-outline"
           ></ion-icon>
           <span class="weather-info__label">Wind</span>
-          <span class="weather-info__value">10KM/h</span>
+          <span class="weather-info__value"
+            >{{ infoWeather.current.wind_kph }}Km/h</span
+          >
           <span class="separate-y"></span>
         </div>
 
         <div class="weather-info__item">
           <ion-icon class="weather-info__icon" name="water-outline"></ion-icon>
           <span class="weather-info__label">Hum</span>
-          <span class="weather-info__value">50%</span>
+          <span class="weather-info__value"
+            >{{ infoWeather.current.humidity }}%</span
+          >
           <span class="separate-y"></span>
         </div>
 
         <div class="weather-info__item">
           <ion-icon class="weather-info__icon" name="rainy-outline"></ion-icon>
           <span class="weather-info__label">Rain</span>
-          <span class="weather-info__value">0.2%</span>
+          <span class="weather-info__value"
+            >{{ infoWeather.current.precip_mm }}mm</span
+          >
         </div>
       </div>
 
@@ -103,6 +112,9 @@ import TemperatureUnit from "@/components/TemperatrueUnit.vue";
 import CardSunTracking from "@/components/CardSunTracking.vue";
 import QuantityComponent from "@/components/QuantityComponent.vue";
 
+import { useStore } from "vuex";
+import { computed, onMounted } from "vue";
+
 export default {
   name: "DashboardComponent",
   components: {
@@ -111,6 +123,34 @@ export default {
     TemperatureUnit,
     CardSunTracking,
     QuantityComponent,
+  },
+  setup() {
+    const store = useStore();
+    const location = computed(() => store.state.currentLocation);
+    const infoWeather = computed(() => {
+      const currentData = store.state.infoWeather;
+      console.log({ currentData });
+      return currentData;
+    });
+
+    onMounted(() => {
+      getCurrentLocation();
+    });
+
+    function getCurrentLocation() {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        store.dispatch("setCurrentLocation", {
+          lat: coords.latitude,
+          lng: coords.longitude,
+        });
+      });
+    }
+
+    return {
+      getCurrentLocation,
+      location,
+      infoWeather,
+    };
   },
 };
 </script>
