@@ -8,6 +8,7 @@ export const weatherStore = createStore({
     return {
       currentLocation: null,
       infoWeather: null,
+      loading: false,
     };
   },
 
@@ -41,7 +42,6 @@ export const weatherStore = createStore({
         .catch((err) => {
           console.log("Errors: ", err);
         });
-      console.log("run acgtion");
     },
   },
 });

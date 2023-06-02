@@ -1,21 +1,19 @@
 <template>
-  <div class="dashboard d-flex">
+  <div v-if="infoWeather" class="dashboard d-flex">
     <div class="dashboard__left d-flex flex-column jc-between">
-      <CloudComponent />
+      <CloudComponent :hours="12" />
 
       <div class="temperature">
         <TemperatureUnit
-          :temperature="infoWeather.current.temp_c"
+          :temperature="infoWeather?.current?.temp_c"
           size="126px"
         />
       </div>
 
       <div class="days d-flex flex-column">
-        <span class="days__date">17th Jun'21</span>
+        <span class="days__date">{{ infoLastUpdateTime?.date }}</span>
         <div class="days__weakdays">
-          <span>Thursday</span>
-          <span class="separate-y"></span>
-          <span>2:40 AM</span>
+          <span>{{ infoLastUpdateTime?.time }}</span>
         </div>
       </div>
 
@@ -27,7 +25,7 @@
           ></ion-icon>
           <span class="weather-info__label">Wind</span>
           <span class="weather-info__value"
-            >{{ infoWeather.current.wind_kph }}Km/h</span
+            >{{ infoWeather?.current?.wind_kph }}Km/h</span
           >
           <span class="separate-y"></span>
         </div>
@@ -36,7 +34,7 @@
           <ion-icon class="weather-info__icon" name="water-outline"></ion-icon>
           <span class="weather-info__label">Hum</span>
           <span class="weather-info__value"
-            >{{ infoWeather.current.humidity }}%</span
+            >{{ infoWeather?.current?.humidity }}%</span
           >
           <span class="separate-y"></span>
         </div>
@@ -45,7 +43,7 @@
           <ion-icon class="weather-info__icon" name="rainy-outline"></ion-icon>
           <span class="weather-info__label">Rain</span>
           <span class="weather-info__value"
-            >{{ infoWeather.current.precip_mm }}mm</span
+            >{{ infoWeather?.current?.precip_mm }} mm</span
           >
         </div>
       </div>
@@ -59,7 +57,9 @@
     <div class="dashboard__right d-flex flex-column jc-between">
       <div class="right__head d-flex ai-center">
         <ion-icon name="location-outline"></ion-icon>
-        <h3 class="right__head-location ml-8">Ha Noi, Viet Nam</h3>
+        <h3 class="right__head-location ml-8">
+          {{ infoWeather.location.name }}, {{ infoWeather.location.country }}
+        </h3>
       </div>
 
       <div class="right__card-son d-flex jc-between ai-end">
@@ -129,8 +129,27 @@ export default {
     const location = computed(() => store.state.currentLocation);
     const infoWeather = computed(() => {
       const currentData = store.state.infoWeather;
-      console.log({ currentData });
       return currentData;
+    });
+
+    const infoLastUpdateTime = computed(() => {
+      const lastUpdated = store.state.infoWeather.current.last_updated;
+      const currentDate = new Date(lastUpdated);
+      const date = currentDate.toDateString();
+
+      let hours = currentDate.getHours();
+      let minutes = currentDate.getMinutes();
+
+      let formattedHours = hours < 10 ? "0" + hours : hours;
+      let formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+
+      let time = formattedHours + ":" + formattedMinutes;
+
+      return {
+        date,
+        time,
+        hours,
+      };
     });
 
     onMounted(() => {
@@ -150,6 +169,7 @@ export default {
       getCurrentLocation,
       location,
       infoWeather,
+      infoLastUpdateTime,
     };
   },
 };
