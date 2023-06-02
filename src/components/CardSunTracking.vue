@@ -14,8 +14,7 @@
         alt="clock"
       />
       <span class="wrap-time d-flex flex-column ai-center">
-        <span class="time-from mb-8">{{ timeFrom }}</span>
-        <span class="time-to">{{ timeTo }}</span>
+        <span class="time-from">{{ time }}</span>
       </span>
     </div>
   </div>
@@ -35,12 +34,7 @@ export default {
       required: true,
     },
 
-    timeFrom: {
-      type: String,
-      required: true,
-    },
-
-    timeTo: {
+    time: {
       type: String,
       required: true,
     },
@@ -77,8 +71,12 @@ export default {
 }
 .time-from {
   color: white;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 500;
+  text-align: center;
+  display: block;
+  max-width: 100%;
+  padding: 0 16px;
 }
 .time-to {
   color: white;

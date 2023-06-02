@@ -1,19 +1,19 @@
 <template>
   <div v-if="infoWeather" class="dashboard d-flex">
     <div class="dashboard__left d-flex flex-column jc-between">
-      <CloudComponent :hours="12" />
+      <CloudComponent :hours="infoLastUpdateTime.hours" />
 
       <div class="temperature">
         <TemperatureUnit
-          :temperature="infoWeather?.current?.temp_c"
+          :temperature="infoWeather.current.temp_c"
           size="126px"
         />
       </div>
 
       <div class="days d-flex flex-column">
-        <span class="days__date">{{ infoLastUpdateTime?.date }}</span>
+        <span class="days__date">{{ infoLastUpdateTime.date }}</span>
         <div class="days__weakdays">
-          <span>{{ infoLastUpdateTime?.time }}</span>
+          <span>{{ infoLastUpdateTime.time }}</span>
         </div>
       </div>
 
@@ -25,7 +25,7 @@
           ></ion-icon>
           <span class="weather-info__label">Wind</span>
           <span class="weather-info__value"
-            >{{ infoWeather?.current?.wind_kph }}Km/h</span
+            >{{ infoWeather.current.wind_kph }}Km/h</span
           >
           <span class="separate-y"></span>
         </div>
@@ -34,7 +34,7 @@
           <ion-icon class="weather-info__icon" name="water-outline"></ion-icon>
           <span class="weather-info__label">Hum</span>
           <span class="weather-info__value"
-            >{{ infoWeather?.current?.humidity }}%</span
+            >{{ infoWeather.current.humidity }}%</span
           >
           <span class="separate-y"></span>
         </div>
@@ -43,7 +43,7 @@
           <ion-icon class="weather-info__icon" name="rainy-outline"></ion-icon>
           <span class="weather-info__label">Rain</span>
           <span class="weather-info__value"
-            >{{ infoWeather?.current?.precip_mm }} mm</span
+            >{{ infoWeather.current.precip_mm }} mm</span
           >
         </div>
       </div>
@@ -64,24 +64,11 @@
 
       <div class="right__card-son d-flex jc-between ai-end">
         <CardSunTracking
-          :size="'small'"
-          :timeFrom="'7:12'"
-          :timeTo="'7:30'"
-          :title="'Sunrise'"
-        />
-
-        <CardSunTracking
-          :size="'large'"
-          :timeFrom="'7:12'"
-          :timeTo="'7:30'"
-          :title="'Sunrise'"
-        />
-
-        <CardSunTracking
-          :size="'small'"
-          :timeFrom="'7:12'"
-          :timeTo="'7:30'"
-          :title="'Sunrise'"
+          v-for="(sun, index) in sunTrackingConfig"
+          :key="index"
+          :size="sun.size"
+          :time="sun.time"
+          :title="sun.title"
         />
       </div>
 
@@ -95,11 +82,15 @@
       <div class="right__card-footer d-flex jc-between">
         <QuantityComponent
           :title="'Air Quality'"
-          :currentValue="3"
-          :total="5"
+          :currentValue="infoWeather.current.air_quality['us-epa-index']"
+          :total="6"
         />
 
-        <QuantityComponent :title="'UIV Index'" :currentValue="2" :total="10" />
+        <QuantityComponent
+          :title="'UIV Index'"
+          :currentValue="infoWeather.current.uv"
+          :total="10"
+        />
       </div>
     </div>
   </div>
@@ -152,6 +143,15 @@ export default {
       };
     });
 
+    const sunTrackingConfig = computed(() => {
+      let currentSunSate = store.state.sunState;
+      return [
+        { title: "Sunrise", size: "small", time: currentSunSate.sunrise },
+        { title: "Moonrise", size: "large", time: currentSunSate.moonrise },
+        { title: "Sunriset", size: "small", time: currentSunSate.sunset },
+      ];
+    });
+
     onMounted(() => {
       getCurrentLocation();
     });
@@ -159,6 +159,12 @@ export default {
     function getCurrentLocation() {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         store.dispatch("setCurrentLocation", {
+          lat: coords.latitude,
+          lng: coords.longitude,
+        });
+
+        console.log("Dispatch get data marine");
+        store.dispatch("getDataMarine", {
           lat: coords.latitude,
           lng: coords.longitude,
         });
@@ -170,6 +176,7 @@ export default {
       location,
       infoWeather,
       infoLastUpdateTime,
+      sunTrackingConfig,
     };
   },
 };

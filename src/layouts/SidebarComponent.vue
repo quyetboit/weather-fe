@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="logo d-flex flex-column ai-center jc-center">
       <ion-icon name="cloudy-outline"></ion-icon>
-      <span>QuyetBoit</span>
+      <span>QuyetBoIT</span>
     </div>
 
     <div class="nav-bar pt-20 pb-20 d-flex flex-column jc-between ai-center">

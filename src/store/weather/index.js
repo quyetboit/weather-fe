@@ -9,6 +9,7 @@ export const weatherStore = createStore({
       currentLocation: null,
       infoWeather: null,
       loading: false,
+      sunState: null,
     };
   },
 
@@ -22,6 +23,10 @@ export const weatherStore = createStore({
     setInfoWeather(state, payload) {
       state.infoWeather = payload;
     },
+
+    setSunState(state, payload) {
+      state.sunState = payload;
+    },
   },
 
   actions: {
@@ -32,6 +37,7 @@ export const weatherStore = createStore({
           params: {
             q: `${payload.lat},${payload.lng}`,
             key: enviroment.apiKey,
+            aqi: "yes",
           },
         })
         .then((res) => {
@@ -42,6 +48,21 @@ export const weatherStore = createStore({
         .catch((err) => {
           console.log("Errors: ", err);
         });
+    },
+
+    getDataMarine(context, payload) {
+      axios
+        .get(`${enviroment.baseUrl}/marine.json`, {
+          params: {
+            q: `${payload.lat},${payload.lng}`,
+            key: enviroment.apiKey,
+          },
+        })
+        .then((res) => {
+          let sunStateData = res.data.forecast.forecastday[0].astro;
+          context.commit("setSunState", sunStateData);
+        })
+        .catch((errors) => console.log("Has errors: ", errors));
     },
   },
 });

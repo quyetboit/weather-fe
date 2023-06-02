@@ -1,5 +1,4 @@
 <template>
-  image links: {{ imageCloudByState }}
   <div>
     <img :src="requireImage(imageCloudByState)" alt="" />
   </div>
