@@ -8,6 +8,7 @@ export const weatherStore = createStore({
     return {
       currentLocation: null,
       infoWeather: null,
+      forecastWeather: [],
       loading: false,
       sunState: null,
     };
@@ -26,6 +27,10 @@ export const weatherStore = createStore({
 
     setSunState(state, payload) {
       state.sunState = payload;
+    },
+
+    setForecaseWeather(state, payload) {
+      state.forecastWeather = payload;
     },
   },
 
@@ -51,6 +56,21 @@ export const weatherStore = createStore({
     },
 
     getDataMarine(context, payload) {
+      axios
+        .get(`${enviroment.baseUrl}/marine.json`, {
+          params: {
+            q: `${payload.lat},${payload.lng}`,
+            key: enviroment.apiKey,
+          },
+        })
+        .then((res) => {
+          let sunStateData = res.data.forecast.forecastday[0].astro;
+          context.commit("setSunState", sunStateData);
+        })
+        .catch((errors) => console.log("Has errors: ", errors));
+    },
+
+    retrivelForecaseWeather(context, payload) {
       axios
         .get(`${enviroment.baseUrl}/marine.json`, {
           params: {
