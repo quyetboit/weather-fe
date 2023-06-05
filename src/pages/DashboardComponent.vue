@@ -146,9 +146,9 @@ export default {
     const sunTrackingConfig = computed(() => {
       let currentSunSate = store.state.sunState;
       return [
-        { title: "Sunrise", size: "small", time: currentSunSate.sunrise },
-        { title: "Moonrise", size: "large", time: currentSunSate.moonrise },
-        { title: "Sunriset", size: "small", time: currentSunSate.sunset },
+        { title: "Sunrise", size: "small", time: currentSunSate?.sunrise },
+        { title: "Moonrise", size: "large", time: currentSunSate?.moonrise },
+        { title: "Sunriset", size: "small", time: currentSunSate?.sunset },
       ];
     });
 
@@ -163,7 +163,6 @@ export default {
           lng: coords.longitude,
         });
 
-        console.log("Dispatch get data marine");
         store.dispatch("getDataMarine", {
           lat: coords.latitude,
           lng: coords.longitude,

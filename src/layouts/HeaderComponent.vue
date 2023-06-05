@@ -13,7 +13,10 @@
     </div>
 
     <div class="header__right d-flex ai-center">
-      <InputComponent :placeholder="'Search anything ...'">
+      <InputComponent
+        :placeholder="'Search anything ...'"
+        @updateValue="onUpdateValue"
+      >
         <template v-slot:icon>
           <ion-icon name="search-outline"></ion-icon>
         </template>
@@ -27,11 +30,27 @@
 
 <script>
 import InputComponent from "@/components/InputComponent.vue";
+import { useStore } from "vuex";
 
 export default {
   name: "HeaderComponent",
   components: {
     InputComponent,
+  },
+  setup() {
+    const store = useStore();
+    let timeOutId = null;
+    function onUpdateValue(value) {
+      if (timeOutId) {
+        clearTimeout(timeOutId);
+      }
+      timeOutId = setTimeout(() => {
+        store.dispatch("retrievedAddressAutoComplete", { address: value });
+      }, 500);
+    }
+    return {
+      onUpdateValue,
+    };
   },
 };
 </script>

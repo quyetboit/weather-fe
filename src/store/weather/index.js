@@ -11,6 +11,7 @@ export const weatherStore = createStore({
       forecastWeather: [],
       loading: false,
       sunState: null,
+      dataAutoComplete: [],
     };
   },
 
@@ -31,6 +32,10 @@ export const weatherStore = createStore({
 
     setForecaseWeather(state, payload) {
       state.forecastWeather = payload;
+    },
+
+    setDataAutoCompleteAddress(state, payload) {
+      state.dataAutoComplete = payload || [];
     },
   },
 
@@ -81,6 +86,26 @@ export const weatherStore = createStore({
         .then((res) => {
           let sunStateData = res.data.forecast.forecastday[0].astro;
           context.commit("setSunState", sunStateData);
+        })
+        .catch((errors) => console.log("Has errors: ", errors));
+    },
+
+    retrievedAddressAutoComplete(context, payload) {
+      console.log("Payload retrieved: ", payload);
+      axios
+        .get(`${enviroment.baseUrlViettelMap}/place-api/autocomplete`, {
+          params: {
+            input: payload.address,
+            key: enviroment.apiKeyViettelMap,
+          },
+        })
+        .then((res) => {
+          const dataConvert = res.data.predictions.map((item) => ({
+            name: item.description,
+            placeId: item.place_id,
+          }));
+
+          context.commit("setDataAutoCompleteAddress", dataConvert);
         })
         .catch((errors) => console.log("Has errors: ", errors));
     },
