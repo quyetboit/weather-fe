@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="wrap-input-component relative">
     <input
       :type="type"
       :value="value"
@@ -12,20 +12,26 @@
     </span>
 
     <ul class="data-auto-complete" v-if="isShowResultAutoComplete">
-      <li
-        v-for="(item, index) in dataAutoComplete"
-        :key="index"
-        :title="item.name"
-        @click="onSelectLocation(item.placeId)"
-      >
-        {{ item.name }}
-      </li>
+      <template v-if="dataAutoComplete.length">
+        <li
+          v-for="(item, index) in dataAutoComplete"
+          :key="index"
+          :title="item.name"
+          @click="onSelectLocation(item.placeId, item.name)"
+        >
+          {{ item.name }}
+        </li>
+      </template>
+
+      <template v-else>
+        <li>No data found</li>
+      </template>
     </ul>
   </div>
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { onMounted, onUnmounted, computed, ref } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "InputComponent",
@@ -44,19 +50,37 @@ export default {
     const store = useStore();
     const isShowResultAutoComplete = ref(false);
 
+    onMounted(() => {
+      document.addEventListener("click", handleClickOutside);
+    });
+
     function onInput(e) {
       isShowResultAutoComplete.value = true;
       emit("updateValue", e.target.value);
+      console.log("value input: ", props.value);
     }
 
-    function onSelectLocation(placeId) {
+    function onSelectLocation(placeId, address) {
       isShowResultAutoComplete.value = false;
+      emit("updateValue", address);
       console.log("Place ID: ", placeId);
+    }
+
+    function handleClickOutside(event) {
+      if (!event.target.closest(".wrap-input-component")) {
+        console.log("Click out side component");
+        isShowResultAutoComplete.value = false;
+      }
     }
 
     const dataAutoComplete = computed(() => {
       return store.state.dataAutoComplete;
     });
+
+    onUnmounted(() => {
+      document.removeEventListener("click", handleClickOutside);
+    });
+
     return {
       onInput,
       onSelectLocation,

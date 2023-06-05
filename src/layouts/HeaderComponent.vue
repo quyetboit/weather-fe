@@ -15,6 +15,7 @@
     <div class="header__right d-flex ai-center">
       <InputComponent
         :placeholder="'Search anything ...'"
+        :value="valueInput"
         @updateValue="onUpdateValue"
       >
         <template v-slot:icon>
@@ -31,6 +32,7 @@
 <script>
 import InputComponent from "@/components/InputComponent.vue";
 import { useStore } from "vuex";
+import { ref } from "vue";
 
 export default {
   name: "HeaderComponent",
@@ -39,8 +41,10 @@ export default {
   },
   setup() {
     const store = useStore();
+    const valueInput = ref("");
     let timeOutId = null;
     function onUpdateValue(value) {
+      valueInput.value = value;
       if (timeOutId) {
         clearTimeout(timeOutId);
       }
@@ -50,6 +54,7 @@ export default {
     }
     return {
       onUpdateValue,
+      valueInput,
     };
   },
 };
