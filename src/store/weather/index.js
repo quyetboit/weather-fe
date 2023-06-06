@@ -75,23 +75,7 @@ export const weatherStore = createStore({
         .catch((errors) => console.log("Has errors: ", errors));
     },
 
-    retrivelForecaseWeather(context, payload) {
-      axios
-        .get(`${enviroment.baseUrl}/marine.json`, {
-          params: {
-            q: `${payload.lat},${payload.lng}`,
-            key: enviroment.apiKey,
-          },
-        })
-        .then((res) => {
-          let sunStateData = res.data.forecast.forecastday[0].astro;
-          context.commit("setSunState", sunStateData);
-        })
-        .catch((errors) => console.log("Has errors: ", errors));
-    },
-
     retrievedAddressAutoComplete(context, payload) {
-      console.log("Payload retrieved: ", payload);
       axios
         .get(`${enviroment.baseUrlViettelMap}/place-api/autocomplete`, {
           params: {
@@ -106,6 +90,25 @@ export const weatherStore = createStore({
           }));
 
           context.commit("setDataAutoCompleteAddress", dataConvert);
+        })
+        .catch((errors) => console.log("Has errors: ", errors));
+    },
+
+    retrievedWeatherInfoByPlaceId(context, { placeId }) {
+      axios
+        .get(`${enviroment.baseUrlViettelMap}/place-api/geocode`, {
+          params: {
+            place_id: placeId,
+            key: enviroment.apiKeyViettelMap,
+          },
+        })
+        .then((res) => {
+          console.log("Ress get location form place id: ", res);
+          if (res.status === 200 && res.data.results.length) {
+            const location = res.data.results[0].geometry.location;
+            context.dispatch("setCurrentLocation", location);
+            context.dispatch("getDataMarine", location);
+          }
         })
         .catch((errors) => console.log("Has errors: ", errors));
     },

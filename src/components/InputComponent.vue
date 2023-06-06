@@ -62,13 +62,12 @@ export default {
 
     function onSelectLocation(placeId, address) {
       isShowResultAutoComplete.value = false;
+      store.dispatch("retrievedWeatherInfoByPlaceId", { placeId });
       emit("updateValue", address);
-      console.log("Place ID: ", placeId);
     }
 
     function handleClickOutside(event) {
       if (!event.target.closest(".wrap-input-component")) {
-        console.log("Click out side component");
         isShowResultAutoComplete.value = false;
       }
     }
