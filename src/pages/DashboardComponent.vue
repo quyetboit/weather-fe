@@ -48,10 +48,30 @@
         </div>
       </div>
 
-      <div class="weather-future d-flex">
-        <CardTemperature />
-        <CardTemperature />
-        <CardTemperature />
+      <div class="weather-future relative">
+        <div class="btn-slide btn-prev" @click="next">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </div>
+
+        <div class="btn-slide btn-next">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+        <div style="left: 0" class="wrap-card-feature d-flex relative">
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+          <CardTemperature />
+        </div>
       </div>
     </div>
     <div class="dashboard__right d-flex flex-column jc-between">
@@ -123,6 +143,27 @@ export default {
       return currentData;
     });
 
+    function next() {
+      const wraperElement = document.querySelector(".wrap-card-feature");
+      const cardElement = wraperElement.querySelector(".card");
+      const wrapperWidth = wraperElement.offsetWidth;
+      const cardWidth = cardElement.offsetWidth;
+
+      console.log({ wraperElement });
+
+      let currentLeftStyle = wraperElement.style.left
+        ? wraperElement.style.left.replace(/px/g, "")
+        : 0;
+
+      let calulateValue = parseInt(currentLeftStyle) - cardWidth - 30; //30 is margin left
+
+      console.log({ calulateValue, wrapperWidth });
+
+      if (calulateValue <= wrapperWidth) {
+        wraperElement.style.left = calulateValue + "px";
+      }
+    }
+
     const infoLastUpdateTime = computed(() => {
       const lastUpdated = store.state.infoWeather.current.last_updated;
       const currentDate = new Date(lastUpdated);
@@ -172,6 +213,7 @@ export default {
 
     return {
       getCurrentLocation,
+      next,
       location,
       infoWeather,
       infoLastUpdateTime,
@@ -187,12 +229,13 @@ export default {
   height: 100%;
 }
 .dashboard__left {
-  width: 66.666667%;
+  width: calc(66.666667 * (100vw - var(--width-sidebar)) / 100);
   height: 100%;
   padding: 30px;
 }
 
 .dashboard__right {
+  width: calc(33.333333 * (100vw - var(--width-sidebar)) / 100);
   flex: 1;
   height: 100%;
   background: radial-gradient(
@@ -276,5 +319,45 @@ export default {
   justify-content: center;
   background: rgba(255, 255, 255, 0.23);
   border-radius: 50%;
+}
+
+.weather-future {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.btn-slide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  opacity: 0.6;
+  color: var(--primary-bg-color);
+  z-index: 9;
+}
+
+.btn-slide:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.btn-slide ion-icon {
+  font-size: 3rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-slide.btn-next {
+  right: 0;
+}
+
+.btn-slide.btn-prev {
+  left: 0;
+}
+
+.wrap-card-feature,
+.weather-future {
+  transition: all linear 0.25s;
 }
 </style>
