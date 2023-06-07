@@ -65,20 +65,12 @@
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
         <div style="left: 0" class="wrap-card-feature d-flex relative">
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
-          <CardTemperature />
+          <CardTemperature
+            v-for="(item, index) in weatherFuture"
+            :key="index"
+            :temperature="item.temperature"
+            :dayName="item.day"
+          />
         </div>
       </div>
     </div>
@@ -132,7 +124,7 @@ import CardSunTracking from "@/components/CardSunTracking.vue";
 import QuantityComponent from "@/components/QuantityComponent.vue";
 
 import { useStore } from "vuex";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 
 export default {
   name: "DashboardComponent",
@@ -147,6 +139,24 @@ export default {
     const store = useStore();
     const isDisableBtnNext = ref(false);
     const isDisableBtnPrev = ref(true);
+    const weatherFuture = reactive([
+      { temperature: 23, day: "Sun" },
+      { temperature: 28, day: "Mon" },
+      { temperature: 25, day: "Tue" },
+      { temperature: 21, day: "Wed" },
+      { temperature: 19, day: "Thur" },
+      { temperature: 17, day: "Fri" },
+      { temperature: 18, day: "Sat" },
+      { temperature: 20, day: "Sun" },
+      { temperature: 21, day: "Mon" },
+      { temperature: 24, day: "Tue" },
+      { temperature: 27, day: "Wed" },
+      { temperature: 29, day: "Thur" },
+      { temperature: 28, day: "Fri" },
+      { temperature: 31, day: "Sat" },
+    ]);
+    console.log({ weatherFuture });
+
     const location = computed(() => store.state.currentLocation);
     const infoWeather = computed(() => {
       const currentData = store.state.infoWeather;
@@ -253,6 +263,7 @@ export default {
       sunTrackingConfig,
       isDisableBtnNext,
       isDisableBtnPrev,
+      weatherFuture,
     };
   },
 };

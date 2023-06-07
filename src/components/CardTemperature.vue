@@ -1,6 +1,6 @@
 <template>
   <div class="card d-flex flex-column ai-center jc-between">
-    <TemperatureUnit :temperature="23" :size="'small'" />
+    <TemperatureUnit :temperature="temperature" :size="'small'" />
 
     <img
       class="card__image-cloud"
@@ -8,7 +8,7 @@
       alt=""
     />
 
-    <h3 class="card__days">Sun</h3>
+    <h3 class="card__days">{{ dayName }}</h3>
   </div>
 </template>
 
@@ -16,7 +16,16 @@
 import TemperatureUnit from "@/components/TemperatrueUnit.vue";
 export default {
   name: "CardTemperature",
-  props: {},
+  props: {
+    temperature: {
+      type: Number,
+      required: true,
+    },
+    dayName: {
+      type: String,
+      require: true,
+    },
+  },
   components: {
     TemperatureUnit,
   },
