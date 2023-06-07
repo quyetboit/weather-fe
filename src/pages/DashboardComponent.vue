@@ -49,11 +49,19 @@
       </div>
 
       <div class="weather-future relative">
-        <div class="btn-slide btn-prev" @click="next">
+        <div
+          class="btn-slide btn-prev"
+          @click="changeSlide(-1)"
+          :class="{ disable: isDisableBtnPrev }"
+        >
           <ion-icon name="chevron-back-outline"></ion-icon>
         </div>
 
-        <div class="btn-slide btn-next">
+        <div
+          class="btn-slide btn-next"
+          @click="changeSlide(1)"
+          :class="{ disable: isDisableBtnNext }"
+        >
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
         <div style="left: 0" class="wrap-card-feature d-flex relative">
@@ -124,7 +132,7 @@ import CardSunTracking from "@/components/CardSunTracking.vue";
 import QuantityComponent from "@/components/QuantityComponent.vue";
 
 import { useStore } from "vuex";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 export default {
   name: "DashboardComponent",
@@ -137,30 +145,55 @@ export default {
   },
   setup() {
     const store = useStore();
+    const isDisableBtnNext = ref(false);
+    const isDisableBtnPrev = ref(true);
     const location = computed(() => store.state.currentLocation);
     const infoWeather = computed(() => {
       const currentData = store.state.infoWeather;
       return currentData;
     });
 
-    function next() {
+    /**
+     *
+     * @param {*} direction 1 | -1
+     * * 1 is next slide
+     * * -1 is pre slide
+     */
+    function changeSlide(direction) {
       const wraperElement = document.querySelector(".wrap-card-feature");
-      const cardElement = wraperElement.querySelector(".card");
+      const cardsElement = wraperElement.querySelectorAll(".card");
       const wrapperWidth = wraperElement.offsetWidth;
-      const cardWidth = cardElement.offsetWidth;
-
-      console.log({ wraperElement });
+      const cardWidth = cardsElement[0].offsetWidth;
+      const marginLeft = 30;
+      const realWidthOfWrapper =
+        cardWidth * cardsElement.length +
+        marginLeft * (cardsElement.length - 1);
 
       let currentLeftStyle = wraperElement.style.left
         ? wraperElement.style.left.replace(/px/g, "")
         : 0;
 
-      let calulateValue = parseInt(currentLeftStyle) - cardWidth - 30; //30 is margin left
-
-      console.log({ calulateValue, wrapperWidth });
-
-      if (calulateValue <= wrapperWidth) {
-        wraperElement.style.left = calulateValue + "px";
+      if (direction === 1) {
+        let calulateValue = parseInt(currentLeftStyle) - cardWidth - marginLeft;
+        isDisableBtnPrev.value = false;
+        if (-calulateValue <= realWidthOfWrapper - wrapperWidth) {
+          isDisableBtnNext.value = false;
+          wraperElement.style.left = calulateValue + "px";
+        } else {
+          isDisableBtnNext.value = true;
+          wraperElement.style.left =
+            -(realWidthOfWrapper - wrapperWidth) + "px";
+        }
+      } else {
+        let calulateValue = parseInt(currentLeftStyle) + cardWidth + marginLeft;
+        isDisableBtnNext.value = false;
+        if (calulateValue < 0) {
+          isDisableBtnPrev.value = false;
+          wraperElement.style.left = calulateValue + "px";
+        } else {
+          isDisableBtnPrev.value = true;
+          wraperElement.style.left = 0;
+        }
       }
     }
 
@@ -213,11 +246,13 @@ export default {
 
     return {
       getCurrentLocation,
-      next,
+      changeSlide,
       location,
       infoWeather,
       infoLastUpdateTime,
       sunTrackingConfig,
+      isDisableBtnNext,
+      isDisableBtnPrev,
     };
   },
 };

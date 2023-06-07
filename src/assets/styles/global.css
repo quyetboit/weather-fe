@@ -482,3 +482,9 @@ body {
   top: 50%;
   transform: translateY(-50%);
 }
+
+.disable {
+  opacity: 0.3 !important;
+  cursor: default !important;
+  pointer-events: none !important;
+}
